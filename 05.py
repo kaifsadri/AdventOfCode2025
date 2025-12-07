@@ -20,11 +20,11 @@ print(f"Part 1: {len(F)}")
 R = sorted(R, key=lambda x: x[0])
 P2 = 0
 lo, hi = R[0]
-for r in R[1:]:
-    if lo <= r[0] <= hi:  # Overlap
-        hi = max(r[1], hi)
+for ll, hh in R[1:]:
+    if ll <= hi:  # Overlap
+        hi = max(hh, hi)
     else:  # No overlap
         P2 += hi - lo + 1
-        lo, hi = r
+        lo, hi = ll, hh
 P2 += hi - lo + 1  # take care of last range
 print(f"Part 2: {P2}")

@@ -13,25 +13,18 @@ for ing in In:
     for r in R:
         if r[0] <= ing <= r[1]:
             F.add(ing)
-            break # fresh once, fresh always!
+            break  # fresh once, fresh always!
 print(f"Part 1: {len(F)}")
 
 # Part 2:
-L = sorted(R, key=lambda x: x[0], reverse=True)
-M = set()
-lo, hi = L.pop()
-while L:
-    ll, hh = L.pop()
-    if lo <= ll <= hi:
-        if lo <= hh <= hi:
-            # this pair is useless. Ignore it:
-            continue
-        else:
-            # produce a larger overlap set and continue
-            hi = hh
-            continue
-    # if we are here, we have a cleaned-up range to add to tne list of answers
-    M.add((lo, hi))
-    lo, hi = ll, hh
-M.add((lo, hi)) # take care of last pair
-print(f"Part 2: {sum(hi - lo + 1 for lo, hi in M)}")
+R = sorted(R, key=lambda x: x[0])
+P2 = 0
+lo, hi = R[0]
+for r in R[1:]:
+    if lo <= r[0] <= hi:  # Overlap
+        hi = max(r[1], hi)
+    else:  # No overlap
+        P2 += hi - lo + 1
+        lo, hi = r
+P2 += hi - lo + 1  # take care of last range
+print(f"Part 2: {P2}")
